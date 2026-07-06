@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+set -e
+
+help() {
+    cat <<EOF 
+
+eman check-verilator
+    Show installed Verilator version
+
+eman verilator-example
+    Compile and run Verilator example
+    Path: verilog/counter
+
+eman change-verilator <VERSION>
+    Switch Verilator version
+
+eman c-compiler-version
+    Show GCC and Make versions
+
+eman c-compiler-example
+    Compile and run C/C++ example
+    Path: c_cpp/arrays/multidim_array
+
+
+EOF
+}
+
+check_verilator() {
+    echo "[INFO] Verilator version:"
+    verilator --version
+}
+
+verilator_example() {
+    echo "[INFO] Running Verilator example..."
+    cd verilog/counter
+    make
+}
+
+change_verilator() {
+    VERSION=$1
+    #no version 
+    if [ -z "$VERSION" ]; then
+        echo "[ERROR] Please specify version"
+        exit 1
+    fi
+
+    echo "[INFO] Requested Verilator version: $VERSION"
+    echo "[NOTE] Stub implementation for lab requirement."
+}
+
+c_compiler_version() {
+    echo "[INFO] GCC version:"
+    gcc --version 
+
+    echo ""
+    echo "[INFO] Make version:"
+    make --version 
+}
+
+c_compiler_example() {
+    echo "[INFO] Running C/C++ example..."
+    cd c_cpp/arrays/multidim_array
+    make
+}
+
+case "$1" in
+    help)
+        help
+        ;;
+    check-verilator)
+        check_verilator
+        ;;
+    verilator-example)
+        verilator_example
+        ;;
+    change-verilator)
+        shift
+        change_verilator "$1"
+        ;;
+    c-compiler-version)
+        c_compiler_version
+        ;;
+    c-compiler-example)
+        c_compiler_example
+        ;;
+    *)
+        echo "[ERROR] Unknown command: $1"
+        echo "Run: eman help"
+        exit 1
+        ;;
+esac
