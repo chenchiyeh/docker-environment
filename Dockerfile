@@ -106,6 +106,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++ \
     python3 \
     python3-pip \
+    git \
+    nano \
+    make \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=systemc_provider /opt/systemc /opt/systemc
